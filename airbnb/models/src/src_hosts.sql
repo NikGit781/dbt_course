@@ -1,0 +1,15 @@
+{{ config(materialized='ephemeral') }}
+
+WITH RAW_HOSTS AS
+(
+    --SELECT * FROM AIRBNB.RAW.RAW_HOSTS            -- DIRECT REFERENCE TO TABLE
+    SELECT * FROM {{ source('airbnb', 'hosts') }}   -- REFERENCE TO SOURCE
+)
+
+SELECT 
+    ID AS HOST_ID,
+    NAME AS HOST_NAME,
+    IS_SUPERHOST AS IS_HOST_SUPERHOST,
+    CREATED_AT,
+    UPDATED_AT
+FROM RAW_HOSTS
